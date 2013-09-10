@@ -1,18 +1,17 @@
-import time
-import win32gui, win32api, win32con
+import win32gui, win32api, win32con, time
 
 def get_pixel_colour(i_x, i_y):
-    i_desktop_window_id = win32gui.GetDesktopWindow()
-    i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
-    long_colour = win32gui.GetPixel(i_desktop_window_dc, i_x, i_y)
-    i_colour = int(long_colour)
-    return (i_colour & 0xff), ((i_colour >> 8) & 0xff), ((i_colour >> 16) & 0xff)
+        i_desktop_window_id = win32gui.GetDesktopWindow()
+        i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
+        long_colour = win32gui.GetPixel(i_desktop_window_dc, i_x, i_y)
+        i_colour = int(long_colour)
+        return (i_colour & 0xff), ((i_colour >> 8) & 0xff), ((i_colour >> 16) & 0xff)
 
 def click(x,y):
-    win32api.SetCursorPos((x,y))
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
-    
+        win32api.SetCursorPos((x,y))
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+        
 #values for reading colors and clicking the number buttons
 colors = {"Black":(38, 38, 38), "Brown":(166, 128, 100), "Red":(255, 0, 0), "Orange":(255, 153, 0), "Yellow":(255, 255, 0), "Green":(102, 153, 0), "Blue":(0, 0, 255), "Violet":(102, 51, 255)}
 bandValues = {"Black":0, "Brown":1, "Red":2, "Orange":3, "Yellow":4, "Green":5, "Blue":6, "Violet":7}
@@ -23,35 +22,33 @@ varianceColors = {"Gold":(254, 224, 122), "Silver":(182, 182, 182)}
 varianceButtons = {"Gold":(740, 490), "Silver":(860, 490)}
 
 def firstTwo():
-    first = get_pixel_colour(623, 353)
-    for i in colors:
-        if colors[i] == first:
-            correctButton = buttons[bandValues[i]]
-            click(correctButton[0], correctButton[1])
-    second = get_pixel_colour(726, 353)
-    for i in colors:
-        if colors[i] == second:
-            correctButton = buttons[bandValues[i]]
-            click(correctButton[0], correctButton[1])
-    
+        first = get_pixel_colour(623, 353)
+        for i in colors:
+                if colors[i] == first:
+                        correctButton = buttons[bandValues[i]]
+                        click(correctButton[0], correctButton[1])
+        second = get_pixel_colour(726, 353)
+        for i in colors:
+                if colors[i] == second:
+                        correctButton = buttons[bandValues[i]]
+                        click(correctButton[0], correctButton[1])
+        
 def Multiplier():
-    third = get_pixel_colour(826, 353)
-    for i in colors:
-        if colors[i] == third:
-            for i in range (0, bandValues[i]):
-                click(buttons[0][0], buttons[0][1])
+        third = get_pixel_colour(826, 353)
+        for i in colors:
+                if colors[i] == third:
+                        for i in range (0, bandValues[i]):
+                                click(buttons[0][0], buttons[0][1])
 
 def Variance():
-    forth = get_pixel_colour(931, 353)
-    for i in varianceColors:
-        if varianceColors[i] == forth:
-            correctButton = varianceButtons[i]
-            click(correctButton[0], correctButton[1])
+        forth = get_pixel_colour(931, 353)
+        for i in varianceColors:
+                if varianceColors[i] == forth:
+                        correctButton = varianceButtons[i]
+                        click(correctButton[0], correctButton[1])
 
-time.sleep(5)
 while True:
-    firstTwo()
-    Multiplier()
-    Variance()
-    time.sleep(.1)
-    
+        time.sleep(.1)
+        firstTwo()
+        Multiplier()
+        Variance()
