@@ -1,6 +1,5 @@
-import ctypes
 import time
-import win32gui
+import win32gui, win32api, win32con
 
 def get_pixel_colour(i_x, i_y):
     i_desktop_window_id = win32gui.GetDesktopWindow()
@@ -9,11 +8,10 @@ def get_pixel_colour(i_x, i_y):
     i_colour = int(long_colour)
     return (i_colour & 0xff), ((i_colour >> 8) & 0xff), ((i_colour >> 16) & 0xff)
 
-def click(i_x, i_y):
-    ctypes._reset_cache()
-    ctypes.windll.user32.SetCursorPos(i_x, i_y)
-    ctypes.windll.user32.mouse_event(2, 0, 0, 0,0) # left down
-    ctypes.windll.user32.mouse_event(4, 0, 0, 0,0) # left up
+def click(x,y):
+    win32api.SetCursorPos((x,y))
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
     
 #values for reading colors and clicking the number buttons
 colors = {"Black":(38, 38, 38), "Brown":(166, 128, 100), "Red":(255, 0, 0), "Orange":(255, 153, 0), "Yellow":(255, 255, 0), "Green":(102, 153, 0), "Blue":(0, 0, 255), "Violet":(102, 51, 255)}
